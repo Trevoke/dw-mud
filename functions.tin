@@ -11,8 +11,7 @@
 #var ccccounter -1;
 #var skeletime -1;
 #var xp_updated 0; 
-#format {tpastatus} {%cTPA down!}
-			{bold red};
+#format {tpastatus} {%cTPA down!} {bold red};
 
 #format {xpin60} {%cXp per Hour:     n/a} {light blue};
 #format {xpin10} {%cXp in 10 minutes:    n/a} {light blue};
