@@ -120,11 +120,6 @@
 	tts Hitman Hitman Hitman;
 };
 
-#action {solidies with a satisfying thump.}
-{
-        tts Now you're thinking with portals;
-}
-
 #action {^Noting the intentions of %8, you move in to assist %9.} 
 {
 	mp3 swordraw.mp3;
