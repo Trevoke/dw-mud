@@ -3,7 +3,7 @@
 #nop ---------------------------------------------------------------------------
 #CONFIG           {SPEEDWALK}             {OFF}
 #CONFIG           {VERBATIM}              {OFF}
-#CONFIG           {REPEAT ENTER}          {ON}
+#CONFIG           {REPEAT ENTER}          {OFF}
 #CONFIG           {ECHO COMMAND}          {ON}
 #CONFIG           {VERBOSE}               {ON}
 #CONFIG           {WORDWRAP}              {ON}
