@@ -1,2 +1,2 @@
 #!/bin/sh
-tt++ config.tin
+tt++ -G config.tin
