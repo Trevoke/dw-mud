@@ -1,0 +1,98 @@
+#nop ---------------------------------------------------------------------------
+#nop CONFIGURATION OF TINTIN FEATURES
+#nop ---------------------------------------------------------------------------
+#CONFIG           {SPEEDWALK}             {OFF}
+#CONFIG           {VERBATIM}              {OFF}
+#CONFIG           {REPEAT ENTER}          {ON}
+#CONFIG           {ECHO COMMAND}          {ON}
+#CONFIG           {VERBOSE}               {ON}
+#CONFIG           {WORDWRAP}              {ON}
+#CONFIG           {LOG}                   {HTML}
+#CONFIG           {BUFFER SIZE}           {500000}
+#CONFIG           {SCROLL LOCK}           {ON}
+#CONFIG           {HISTORY SIZE}          {2000}
+#CONFIG           {CONNECT RETRY}         {60}
+#CONFIG           {PACKET PATCH}          {5}
+#CONFIG           {TINTIN CHAR}           {#}
+#CONFIG           {VERBATIM CHAR}         {\}
+#CONFIG           {REPEAT CHAR}           {!}
+#CONFIG		  {MCCP}                  {ON}
+
+
+#nop ---------------------------------------------------------------------------
+#nop OTHER FILES TO LOAD
+#nop ---------------------------------------------------------------------------
+#read functions.tin
+#read actions.tin
+
+#nop ---------------------------------------------------------------------------
+#nop SERVER SESSION DETAILS
+#nop ---------------------------------------------------------------------------
+#SESSION disc discworld.starturtle.net 4242
+
+#split 6 1;
+
+#var playername Muad;
+
+#nop ---------------------------------------------------------------------------
+#nop CONFIGURATION OF ADVANCED FEATURES
+#nop ---------------------------------------------------------------------------
+
+#nop mp3 playback support, supported options: none, mpg321
+#nop ---------------------------------------------------------------------------
+#var mp3 mpg321;
+
+#nop text to speech engine, supported options: none, festival, osx
+#nop ---------------------------------------------------------------------------
+#var tts osx;
+
+#nop ---------------------------------------------------------------------------
+#NOP KEY CONFIGS
+#nop ---------------------------------------------------------------------------
+#NOP Screen up and screen down keys
+#nop ---------------------------------------------------------------------------
+#macro {\e\eOA} {#buffer up}
+#macro {\e\eOB} {#buffer down}
+
+#nop walking with alt + uiojm,.l 
+#nop ---------------------------------------------------------------------------
+#macro {\eOt} {w}
+#macro {\eOw} {nw}
+#macro {\eOx} {n}
+#macro {\eOy} {ne}
+#macro {\eOv} {e}
+#macro {\eOs} {se}
+#macro {\eOr} {s}
+#macro {\eOq} {sw}
+
+#nop walking with numpad
+#nop ---------------------------------------------------------------------------
+#macro {\ej} {w}
+#macro {\eu} {nw}
+#macro {\ei} {n}
+#macro {\eo} {ne}
+#macro {\el} {e}
+#macro {\e.} {se}
+#macro {\e,} {s}
+#macro {\em} {sw}
+#macro {\eOu} {ls}
+
+
+#nop ---------------------------------------------------------------------------
+#NOP LOGGING supported options: off, on
+#nop ---------------------------------------------------------------------------
+log on
+
+#nop ---------------------------------------------------------------------------
+#nop ALIAS NEEDED TO QUIT WITH SAVING THE VARIABLES 
+#nop NEEDS alias quitt quit TO WORK !!!
+#nop ---------------------------------------------------------------------------
+#alias quit {alias tintin-settings $tpa_on:$min_counter $hits ccc:$ccccounter !; quitt};
+
+#nop ---------------------------------------------------------------------------
+#nop ALIAS NEEDED TO SU WITH SAVING THE VARIABLES
+#nop NEEDS alias suu su TO WORK !!!
+#nop ---------------------------------------------------------------------------
+#alias su {alias tintin-settings $tpa_on:$min_counter $hits ccc:$ccccounter !; suu %1};
+
+

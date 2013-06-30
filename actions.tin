@@ -1,0 +1,413 @@
+#nop Actions
+
+
+#nop ===========================================================================
+#nop BASIC COMMON INTERFACE
+#nop ---------------------------------------------------------------------------
+
+#nop ---------------------------------------------------------------------------
+#nop DEFAULT MONITOR LINES
+#nop ---------------------------------------------------------------------------
+
+#prompt {^Hp: %0 (%1) Gp: %2 (%3) Xp: %4} {$prompt_final};
+#prompt {^Hp: %0(%1)  Gp: %2(%3)  Xp: %4  Burden: %5} {$prompt_final};
+#gag {Queued command: score brief};
+#gag {Queued command: money brief};
+
+#nop MONITOR LINE IN score brief INGAME OUTPUT
+#act {^Hp: %1(%2)  Gp: %3(%4)  Xp: %5  Burden: %6}
+{
+	#var hpcol @colscale{%1 %2};
+	#var mncol @colscale{%3 %4};
+	#var xpvalue %5;
+
+	#nop on first call, set the correct xp to start counting correctly in the triggers
+	#if {$xp_updated == 0}
+	{
+		#var {newxp} {$xpvalue};
+		#var {newexp} {$xpvalue};
+		#var {xp_updated} {1};
+	};
+
+	#format {health}
+	{
+		%c<%c---%c( Hp: %s%+4s%c(%c%-4s%c)
+	}
+		{dim yellow} {reset} {dim yellow} {$hpcol} {%1} {dim yellow} {light yellow} {%2} {dim yellow};
+	
+	
+	#format {manapool}
+	{
+		%cGp: %s%+3s%c(%c%s%c)
+	}
+		{dim yellow} {$mncol} {%3} {dim yellow} {light yellow} {%4} {dim yellow};
+
+	#format {unspentXP}
+	{
+		%cXp: %c%s
+	}
+		{dim yellow} {reset} {%5};
+
+	#format {burden}
+	{	
+		%cBurden: %c%s
+	}
+		{dim yellow} {reset} {%6};
+
+
+	#format {prompt_final}
+	{
+		%s  %s  %s  %s  %s %c)%c---%c>%c
+	}
+		{$health} {$manapool} {$unspentXP} {$burden} {$money} {dim yellow} {reset} {dim yellow} {reset};
+};
+
+
+#nop MONITOR LINE FROM INGAME COMBAT WITH monitor on
+#act {^Hp: %0 (%1) Gp: %2 (%3) Xp: %4}
+{
+	#var hpcol @colscale{%0 %1};
+	#var mncol @colscale{%2 %3};
+	#var xpvalue %4;
+	#if {$xp_updated == 0}
+	{#var {newxp} {$xpvalue};
+	#var {newexp}{$xpvalue};
+	#var {xp_updated} {1};
+	};
+	#format {health} {%c<%c---%c( %cHp: %s%+4s%c(%c%-4s%c)} {dim yellow} {reset} {red} {dim yellow} {$hpcol} {%0} {dim yellow} {light yellow} {%1} {dim yellow};
+	#format {manapool}{%cGp: %s%+3s%c(%c%s%c)} {dim yellow} {$mncol} {%2} {dim yellow} {light yellow} {%3} {dim yellow};
+	#format {unspentXP} {%cXp: %c%s}{dim yellow} {reset} {%4};
+	#format {prompt_final}{%s  %s  %s  %s  %s %c)%c---%c>%c}{$health} {$manapool} {$unspentXP} {$burden} {$money} {red} {reset} {dim yellow} {reset};
+};
+
+#nop ---------------------------------------------------------------------------
+#nop OUTPUT OF money brief CONVERTED INTO STATUS BAR + GAGGING 
+#nop ---------------------------------------------------------------------------
+
+#act {^You are flat broke.} 
+{
+		#format {money} 
+		{
+			%cMoney:%c You are flat broke.
+		}
+			{dim yellow} {reset}
+};
+#act {^You have a total of %0.$}
+{
+        #format {money}
+        {
+			%cMoney:%c %s
+        }
+			{dim yellow} {reset} {%0}
+};
+#gag {^You have a total of %0.$};
+#gag {^You are flat broke.};
+
+#nop ---------------------------------------------------------------------------
+#nop USEFUL DEFAULT STUFF
+#nop ---------------------------------------------------------------------------
+
+#high {^You} {faint};
+#high {^Queued command: %0} {bold black};
+
+#high {priest} {magenta};
+#high {watchman} {cyan};
+
+#gag {^$};
+
+#action {^A Coffee Nostra hitman steps out of the shadows.$}
+{
+	tts Hitman Hitman Hitman;
+};
+
+#action {solidies with a satisfying thump.}
+{
+        tts Now you're thinking with portals;
+}
+
+#action {^Noting the intentions of %8, you move in to assist %9.} 
+{
+	mp3 swordraw.mp3;
+};
+
+#action {^Whoops!  You %9} 
+{
+	mp3 toasty.mp3;
+};
+
+
+#nop ---------------------------------------------------------------------------
+#nop CATCHING THE CHAT
+#nop ---------------------------------------------------------------------------
+
+#act {^You tell %2} 		{showtowin <138>You tell %2};
+#act {^You ask %2} 		{showtowin <138>You ask %2};
+#act {^You exclaim to %2} 	{showtowin <138>You exclaim to %2};
+#act {~%1 tells you%2} 		{showtowin <138>%1 tells you%2};
+#act {~%1 tells %2 and you: %3} {showtowin <138>%1 tells %2 and you: %3};
+#act {~%1 asks you: %2} 	{showtowin <138>%1 asks you: %2};
+#act {~%1 exclaims to you: %2} 	{showtowin <138>%1 exclaims to you: %2};
+#act {^[%1] %2: %3} 		{showtowin <128>[%1] %2: %3};
+
+#nop ---------------------------------------------------------------------------
+
+
+#nop ---------------------------------------------------------------------------
+#nop COMBAT 
+#nop ---------------------------------------------------------------------------
+
+#high {absorbs all of the blow} {green};
+
+
+#nop ---------------------------------------------------------------------------
+#nop WIZZARDLY STUFF
+#nop ---------------------------------------------------------------------------
+
+#nop PORTALS
+#high {^When you open the %0 you think you can hear a faint rumbling sound from it.$} {bold red};
+#high {burning} {bold red};
+
+#nop MAGICAL SHIELDS
+#nop ALL
+#high {chalky skin} {white};
+#high {dull red} {faint red};
+#high {bright red} {b red};
+#high {wobbling orange} {yellow};
+#high {flickering yellow} {b yellow};
+#high {There is a sudden white flash around %0} {bold red};
+#high {magical impact shield} {green};
+#nop YOURSELF
+#high {your floating %0 swoops in} {green};
+#high {your magical shielding} {yellow};
+#high {^There is a sudden white flash.  Your magical shield has broken.} {bold cyan};
+#high {^In blocking the attack the %0 floating around you is knocked out of orbit.} {bold white};
+#gag {^Your %0 is too late to block};
+
+
+#nop COLOURING OF TPA IN THE TOP BAR
+#act {^As your shield absorbs the impact, it becomes visible as a dull red glow.} {#var {tpacol} {<019>}};
+#act {^As your shield absorbs the impact, its glow changes from a dull red to a bright red.} {#var {tpacol} {<071>}};
+#act {^As your shield absorbs the impact, its glow changes from a bright red to a wobbling orange.} {#var {tpacol} {<039>}};
+#act {^As your shield absorbs the impact, its glow changes from a wobbling orange to a flickering yellow.} {#var {tpacol} {<003>}};
+#act {^Your shield changes from a flickering yellow to a wobbling orange.} {#var {tpacol} {<039>}};
+#act {^Your shield changes from a wobbling orange to a bright red.} {#var {tpacol} {<071>}};
+#act {^Your shield changes from a bright red to a dull red.} {#var {tpacol} {<019>}};
+#act {^Your shield stops glowing a dull red and lapses back into invisibility.} {#var {tpacol} {<029>}};
+
+
+#act {^There is a sudden white flash.  Your magical shield has broken.$} 
+{
+	tts Shield Down;	
+	#var tpa_on 0;
+};
+
+#action {^In blocking the attack the %* floating around you is knocked out of orbit.$} 
+{	
+	tts Floater;
+};
+
+#act {^With a noise that sounds like "Plink!", everything around you flashes %* for a moment.}
+{
+	mp3 ting.mp3;
+	#var sec_counter 0;
+	#var min_counter 0;
+	#var hits 0;
+	#math tpa_on 1;
+	#var tpacol <020>;
+	#ticker {tpa_time}
+	{
+		#math {sec_counter} {$sec_counter + 1};
+		#if {$sec_counter == 60}
+		{
+			#math {min_counter} {$min_counter + 1};
+			#math {sec_counter} {0};
+		}
+	}{1};
+};
+
+#act {%9but your magical shielding absorbs all of the blow.}
+{
+	#math {hits} {$hits + 1};
+};
+
+#action {^With a noise that sounds like "Plink!", the air around %9 flashes red for a moment.$} 
+{
+	mp3 ting.mp3;
+	#regexp {%9} {the skeleton warrior}
+	{
+		#var {skelcol} {<020>};
+	};
+	#regexp {%9} {%i$party[1]}
+	{
+		#list {partyCOL} {set} {1}  {<020>};
+		#var m1sm 0;
+		#list {partyTPA} {set} {1} {0};
+		
+		#tick {member1shield}
+		{
+			#math {m1sm} {$m1sm + 1};
+			#list {partyTPA} {set} {1} {$m1sm};
+		}{60};
+	};
+	#regexp {%9} {%i$party[2]}
+	{
+		#list {partyCOL} {set} {2}  {<020>};
+		#var m2sm 0;
+		#list {partyTPA} {set} {2} {0};
+	
+		#tick {member2shield}
+		{
+			#math {m2sm} {$m2sm + 1};
+			#list {partyTPA} {set} {2} {$m2sm};
+		}{60};
+	};
+	#regexp {%9} {%i$party[3]}
+	{
+		#list {partyCOL} {set} {3}  {<020>};
+		#var m3sm 0;
+		#list {partyTPA} {set} {3} {0};
+	
+		#tick {member3shield}
+		{
+			#math {m3sm} {$m3sm + 1};
+			#list {partyTPA} {set} {3} {$m3sm};
+		}{60};
+	};
+	#regexp {%9} {%i$party[4]}
+	{
+		#list {partyCOL} {set} {4}  {<020>};
+		#var m4sm 0;
+		#list {partyTPA} {set} {4} {0};
+	
+		#tick {member4shield}
+		{
+			#math {m4sm} {$m4sm + 1};
+			#list {partyTPA} {set} {4} {$m4sm};
+		}{60};
+	};
+	#regexp {%9} {%i$party[5]}
+	{
+		#list {partyCOL} {set} {5}  {<020>};
+		#var m5sm 0;
+		#list {partyTPA} {set} {5} {0};
+	
+		#tick {member5shield}
+		{
+			#math {m5sm} {$m5sm + 1};
+			#list {partyTPA} {set} {5} {$m5sm};
+		}{60};
+	};
+};
+
+#action {^There is a sudden white flash around %0}  
+{
+	tts Shield %0;
+	#regexp {%0} {the skeleton warrior.}
+	{
+		#var {skelcol}{<070>};
+	};
+	#regexp {%0} {%i$party[1]}
+	{
+		#list {partyTPA} {set} {1} {down!};
+		#list {partyCOL} {set} {1} {<070>};
+		#untick {member1shield};
+	};
+	#regexp {%0} {%i$party[2]}
+	{
+		#list {partyTPA} {set} {2} {down!};
+		#list {partyCOL} {set} {2} {<070>};
+		#untick {member2shield};
+	};
+	#regexp {%0} {%i$party[3]}
+	{
+		#list {partyTPA} {set} {3} {down!};
+		#list {partyCOL} {set} {3} {<070>};
+		#untick {member3shield};
+	};
+	#regexp {%0} {%i$party[4]}
+	{
+		#list {partyTPA} {set} {4} {down!};
+		#list {partyCOL} {set} {4} {<070>};
+		#untick {member4shield};
+	};
+	#regexp {%0} {%i$party[4]}
+	{
+		#list {partyTPA} {set} {5} {down!};
+		#list {partyCOL} {set} {5} {<070>};
+		#untick {member5shield};
+	};
+};
+
+		
+#action {%8 your chalky skin absorbs %9} 
+{	
+	tts ouch;
+	#math {ccccounter}{$ccccounter +1};
+};
+		
+		
+#nop CCC COUNTER RESET FOR THE TOP BAR
+#act {^Your skin %9 harder%10}
+{
+	#var ccccounter 0;
+};
+
+#act {^You feel your skin become rock hard.$}
+{
+	#var ccccounter 0;
+};
+	
+#action {^Your skin feels itchy; large pieces flake off as you scratch it.$} 
+{
+	mp3 Combobreaker.mp3;	
+	#var ccccounter -1;		
+};
+		
+#action {^The skeleton groans, stirs and rises.} 
+{
+	mp3 skeletonrises.mp3;
+	#var {skeletime} {0};
+	#var {skelesec}  {0};
+	#var {skelcol} {<070>};
+	#ticker {skeletick}
+	{
+		#math {skelesec} {$skelesec +1};
+	 	#if {$skelesec == 60}
+	 	{	
+			#math {skeletime} {$skeletime +1};
+	 		#var  {skelesec} {0};
+	 	};
+	}{1};
+};
+		
+#action {^The skeleton warrior dissolves into dust.  Everything he carried drops to the ground.$} 
+{
+	mp3 crowdohh.mp3;
+	#untick {skeletick};
+	#var {skeletime} {-1};
+};
+
+
+#nop ---------------------------------------------------------------------------
+#nop WITCHY STUFF
+#nop ---------------------------------------------------------------------------
+
+#high {^The last of the injured %0} {bold red};
+
+
+#nop ---------------------------------------------------------------------------
+#nop PERSONAL STUFF
+#nop ---------------------------------------------------------------------------
+
+#high {Hextrek Communicator} {yellow};
+#high {Sorcerer's Gloves} {yellow};
+#high {Shmant} {magenta};
+
+#ALIAS {icheat}
+{
+	ichase;
+	#ticker {chase} {#system {say "Tick! Tick! Tick!" &}} {186} 
+}
+{5};
+
+
