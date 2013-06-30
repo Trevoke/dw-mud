@@ -35,3 +35,4 @@ Original work by Dextar d'Parranoid: http://code.google.com/p/dw-tt-script/
 * Elfindrol's comment on TPA counting
 * Elfindrol's comment on CCC counting
 * Elfindrol' comment on XP counting
+* Figure out something to do when checking components left
