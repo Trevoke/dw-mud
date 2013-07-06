@@ -27,6 +27,11 @@
 
 #var catchname 0;
 
+#act {^[%*] %1 has joined the group.$}
+{
+ partyadd %1;
+}
+
 #act {^You prepare to cast Transcendent Pneumatic Alleviator on %1.}
 {
 	#if {$catchname > 0}
