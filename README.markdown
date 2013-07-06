@@ -29,6 +29,8 @@ Additional commands provided by the client:
 Original work by Dextar d'Parranoid: http://code.google.com/p/dw-tt-script/
 
 # TODO
+* New idea - always have a group bar. Move self info to the bottom. First party member.
+* XP spent on learning from players does not make XP earned go into the negative. .. Somehow.
 * use 'group status brief' to update group
 * use 'group shields' to update group
 * use messages for people joining and leaving groups to update party line

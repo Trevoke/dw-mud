@@ -36,9 +36,8 @@
 	}
 };
 
-#alias {groupbar}
-{
-	#if {"%1" == "on"}
+#act {^%s%1 is %2 and %3.%s} { partyadd %1 };
+#function {show_group_bar} 
 	{
 		#split 6 2;
 		#nop #showme{$prompt_final}{1};
@@ -92,7 +91,10 @@
 			#echo {{%s %s%s%s%s%s %s} { 2 } } 
 				{$topleft} {$member1} {$member2} {$member3} {$member4} {$member5} {$topright};
 		}{1};
-	}{
+	};
+
+#function {hide_group_bar}
+                {
 		#split 6 1;
 
 		#nop #showme {$prompt_final}{1};
@@ -103,7 +105,14 @@
 		#untick {paint group bar};
 		#echo {{ } { 2 }};
 		newparty;
-	};
+                };
+
+#alias {groupbar}
+{
+	#if {"%1" == "on"}
+                { @show_group_bar{} }
+                { @hide_group_bar{} };
+	
 };
 
 #nop ---------------------------------------------------------------------------
@@ -114,29 +123,20 @@
 {	
 	#nop ADD NEW MEMBER INSTANCE
 	#var {toadd} {%0};
+        #var already_in_party { false };
+        #foreach {$party[%*]} {party_member_name} {
+                #if {$party_member_name == $toadd} { #var {already_in_party} {true} }
+        };
+        #if {$already_in_party == "false"}
+        {
 	#list {party} {add} {%0};
 	#list {party} {size} {partysize};
 	#list {partyCOL} {add} {<070>};
 	#list {partyTPA} {add} {down!};
 	#list {partyKILLS} {add} {0};
+        };
 
 };
-
-
-#alias {partyfill}
-{
-	#act {^   %1 is %2 and %3.   }
-	{
-		#regexp {%1} {%i$playername}
-		{}
-		{
-		partyadd %1;
-		};
-	};
-	#wait {20} {ghp;};
-	#unact {^   %1 is %2 and %3.   };
-};
-
 
 #act {^A dull red glow appears around %1.}
 {
