@@ -94,7 +94,7 @@
 	};
 
 #function {hide_group_bar}
-                {
+        {
 		#split 6 1;
 
 		#nop #showme {$prompt_final}{1};
@@ -105,7 +105,7 @@
 		#untick {paint group bar};
 		#echo {{ } { 2 }};
 		newparty;
-                };
+        };
 
 #alias {groupbar}
 {
