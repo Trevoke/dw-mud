@@ -17,107 +17,109 @@
 
 #act {You have joined the group.$}
 {
-	groupbar on;
+  groupbar on;
 };
 
 #act { You have left the group.$}
 {
-	groupbar off;
+  groupbar off;
 };
 
 #var catchname 0;
 
 #act {^[%*] %1 has joined the group.$}
 {
- partyadd %1;
+  partyadd %1;
 }
 
 #act {^You prepare to cast Transcendent Pneumatic Alleviator on %1.}
 {
-	#if {$catchname > 0}
-	{
-		partyadd %1;
-		#math {catchname} {$catchname -1};	
-	}
+  #if {$catchname > 0}
+  {
+    partyadd %1;
+    #math {catchname} {$catchname -1};	
+  }
 };
 
 #act {^   %1 is %2 and %3.%s} { partyadd %1 };
 #function {show_group_bar} 
-	{
-		#split 6 2;
-		#nop #showme{$prompt_final}{1};
-		#loop {1} {5} {cnt}
-		{
-			#echo {{$window[$cnt]} {-$cnt}}
-		};
+{
+  #split 6 2;
+  #nop #showme{$prompt_final}{1};
+  #loop {1} {5} {cnt}
+  {
+    #echo {{$window[$cnt]} {-$cnt}}
+  };
 
-		#ticker {paint group bar}
-		{	
-			#if {$partysize > 0}
-			{
-				#format {member1} {%s%s:%c %s}
-				{$partyCOL[1]} {$party[1]} {reset} {$partyTPA[1]}
-			}{
-				#var {member1} { Empty group! };
-			};
+  #ticker {paint group bar}
+  {	
+    #if {$partysize > 0}
+    {
+      #format {member1} {%s%s:%c %s}
+      {$partyCOL[1]} {$party[1]} {reset} {$partyTPA[1]}
+    }
+    {
+      #var {member1} { Empty group! };
+    };
 
-			#if {$partysize > 1}
-			{
-				#format {member2} { %s %s%s:%c %s}
-				{$separator} {$partyCOL[2]} {$party[2]} {reset} {$partyTPA[2]};
-			}{
-				#var {member2} {};
-			};
+  #if {$partysize > 1}
+    {
+      #format {member2} { %s %s%s:%c %s}
+      {$separator} {$partyCOL[2]} {$party[2]} {reset} {$partyTPA[2]};
+    }
+    {
+      #var {member2} {};
+    };
 
-			#if {$partysize > 2}
-			{
-				#format {member3} { %s %s%s:%c %s}
-				{$separator} {$partyCOL[3]} {$party[3]} {reset} {$partyTPA[3]};
-			}{
-				#var {member3} {};
-			};
-			
-			#if {$partysize > 3}
-			{
-				#format {member4} { %s %s%s:%c %s}
-				{$separator} {$partyCOL[4]} {$party[4]} {reset} {$partyTPA[4]};
-			}{
-				#var {member4} {};
-			};
+    #if {$partysize > 2}
+    {
+      #format {member3} { %s %s%s:%c %s}
+      {$separator} {$partyCOL[3]} {$party[3]} {reset} {$partyTPA[3]};
+    }{
+      #var {member3} {};
+    };
 
-			#if {$partysize > 4}
-			{
-				#format {member5} { %s %s%s:%c %s}
-				{$separator} {$partyCOL[5]} {$party[5]} {reset} {$partyTPA[5]};
-			}{
-				#var {member5} {};
-			};
+#if {$partysize > 3}
+    {
+      #format {member4} { %s %s%s:%c %s}
+      {$separator} {$partyCOL[4]} {$party[4]} {reset} {$partyTPA[4]};
+    }{
+      #var {member4} {};
+    };
 
-			#echo {{%s %s%s%s%s%s %s} { 2 } } 
-				{$topleft} {$member1} {$member2} {$member3} {$member4} {$member5} {$topright};
-		}{1};
-	};
+#if {$partysize > 4}
+    {
+      #format {member5} { %s %s%s:%c %s}
+      {$separator} {$partyCOL[5]} {$party[5]} {reset} {$partyTPA[5]};
+    }{
+      #var {member5} {};
+    };
+
+    #echo {{%s %s%s%s%s%s %s} { 2 } } 
+    {$topleft} {$member1} {$member2} {$member3} {$member4} {$member5} {$topright};
+  }{1};
+};
 
 #function {hide_group_bar}
-        {
-		#split 6 1;
+{
+  #split 6 1;
 
-		#nop #showme {$prompt_final}{1};
-		#loop {1} {5} {cnt}
-		{
-			#echo {{$window[$cnt]} {-$cnt}}
-		};
-		#untick {paint group bar};
-		#echo {{ } { 2 }};
-		newparty;
-        };
+  #nop #showme {$prompt_final}{1};
+  #loop {1} {5} {cnt}
+  {
+    #echo {{$window[$cnt]} {-$cnt}}
+  };
+  #untick {paint group bar};
+  #echo {{ } { 2 }};
+  newparty;
+};
 
 #alias {groupbar}
 {
-	#if {"%1" == "on"}
-                { @show_group_bar{} }
-                { @hide_group_bar{} };
-	
+  #if {"%1" == "on"}
+  { @show_group_bar{} }
+  { @hide_group_bar{} };
+
 };
 
 #nop ---------------------------------------------------------------------------
@@ -126,89 +128,97 @@
 
 #alias {partyadd}
 {	
-	#nop ADD NEW MEMBER INSTANCE
-	#var {toadd} {%0};
-        #var {already_in_party} {false};
-        #foreach {$party[%*]} {party_member_name} {
-                #if {"$party_member_name" == "$toadd"} { #var {already_in_party} {true}}
-        };
-        #if {"$already_in_party" == "false"}
-        {
-	#list {party} {add} {%0};
-	#list {party} {size} {partysize};
-	#list {partyCOL} {add} {<070>};
-	#list {partyTPA} {add} {down!};
-	#list {partyKILLS} {add} {0};
-        };
+  #nop ADD NEW MEMBER INSTANCE
+  #var {toadd} {%0};
+  #var {already_in_party} {false};
+  #foreach {$party[%*]} {party_member_name}
+  {
+    #if {"$party_member_name" == "$toadd"} { #var {already_in_party} {true}}
+  };
+  #if {"$already_in_party" == "false"}
+  {
+    #list {party} {add} {%0};
+    #list {party} {size} {partysize};
+    #list {partyCOL} {add} {<070>};
+    #list {partyTPA} {add} {down!};
+    #list {partyKILLS} {add} {0};
+  };
 
 };
+#nop ---------------------------------------------------------------------------
+#nop PARTYREMOVE - REMOVE MEMBER WITH partyremove charname
+#nop ---------------------------------------------------------------------------
+
+#nop ---------------------------------------------------------------------------
+#nop ? TITLE TO COME
+#nop ---------------------------------------------------------------------------
 
 #act {^A dull red glow appears around %1.}
 {
-	partycolour <019> %1;
+  partycolour <019> %1;
 };
 
 #act {^The dull red glow around %1 becomes bright red.}
 {
-	partycolour <071> %1;
+  partycolour <071> %1;
 };
 
 #act {^The bright red glow around %1 becomes wobbling orange.}
 {
-	partycolour <039> %1;
+  partycolour <039> %1;
 };
 
 #act {^The wobbling orange glow around %1 becomes flickering yellow.}
 {
-	partycolour <003> %1;
+  partycolour <003> %1;
 };
 
 #act {^The flickering yellow glow around %1 becomes wobbling orange.}
 {
-	partycolour <039> %1;
+  partycolour <039> %1;
 };
 
 #act {^The wobbling orange glow around %1 becomes bright red.} 
 {
-	partycolour <071> %1; 
+  partycolour <071> %1; 
 };
 
 #act {^The bright red glow around %1 becomes dull red.} 
 {
-	partycolour <019> %1;
+  partycolour <019> %1;
 };
 
 #act {^The dull red glow around %1 disappears.}
 {
-	partycolour <029> %1;
+  partycolour <029> %1;
 };
 
 #alias {partycolour}
 {
-	#regexp {%2 %3 %4} {%i$party[1]}
-	{
-		#list {partyCOL} {set} {1}  {%1}
-	};
-	#regexp {%2 %3 %4} {%i$party[2]}
-	{
-		#list {partyCOL} {set} {2}  {%1}
-	};
-	#regexp {%2 %3 %4} {%i$party[3]}
-	{
-		#list {partyCOL} {set} {3}  {%1}
-	};
-	#regexp {%2 %3 %4} {%i$party[4]}
-	{
-		#list {partyCOL} {set} {4}  {%1}
-	};
-	#regexp {%2 %3 %4} {%i$party[5]}
-	{
-		#list {partyCOL} {set} {5}  {%1}
-	};
-	#regexp {%2 %3 %4} {skeleton}
-	{
-		#var {skelcol} {%1};
-	};
+#regexp {%2 %3 %4} {%i$party[1]}
+  {
+#list {partyCOL} {set} {1}  {%1}
+  };
+#regexp {%2 %3 %4} {%i$party[2]}
+  {
+#list {partyCOL} {set} {2}  {%1}
+  };
+#regexp {%2 %3 %4} {%i$party[3]}
+  {
+#list {partyCOL} {set} {3}  {%1}
+  };
+#regexp {%2 %3 %4} {%i$party[4]}
+  {
+#list {partyCOL} {set} {4}  {%1}
+  };
+#regexp {%2 %3 %4} {%i$party[5]}
+  {
+#list {partyCOL} {set} {5}  {%1}
+  };
+#regexp {%2 %3 %4} {skeleton}
+  {
+#var {skelcol} {%1};
+  };
 };
 
 
@@ -221,24 +231,24 @@
 
 #alias {newparty}
 {
-	#list party    clear;
-	#list partyCOL clear;
-	#list partyTPA clear;
-	#var  partysize    0;
-	
-	#untick member1shield;
-	#untick member2shield;
-	#untick member3shield;
-	#untick member4shield;
-	#untick member5shield;
+#list party    clear;
+#list partyCOL clear;
+#list partyTPA clear;
+#var  partysize    0;
 
-	#var member1kills 0;
-	#var member2kills 0;
-	#var member3kills 0;
-	#var member4kills 0;
-	#var member5kills 0;
+#untick member1shield;
+#untick member2shield;
+#untick member3shield;
+#untick member4shield;
+#untick member5shield;
 
-	#var yourkills 0;
+#var member1kills 0;
+#var member2kills 0;
+#var member3kills 0;
+#var member4kills 0;
+#var member5kills 0;
+
+#var yourkills 0;
 };
 
 
@@ -248,289 +258,289 @@
 
 #act {%1 dealt the death blow to %2.$}
 {
-	#regexp {%1} {%i$party[1]}
-	{
-		#math {member1kills} {$member1kills + 1};
-	};
-	#regexp {%1} {%i$party[2]}
-	{
-		#math {member2kills} {$member2kills + 1};
-	};
-	#regexp {%1} {%i$party[3]}
-	{
-		#math {member3kills} {$member3kills + 1};
-	};
-	#regexp {%1} {%i$party[4]}
-	{
-		#math {member4kills} {$member4kills + 1};
-	};
-	#regexp {%1} {%i$party[5]}
-	{
-		#math {member5kills} {$member5kills + 1};
-	};
-	
-	killtimer %2;	
+#regexp {%1} {%i$party[1]}
+  {
+#math {member1kills} {$member1kills + 1};
+  };
+#regexp {%1} {%i$party[2]}
+  {
+#math {member2kills} {$member2kills + 1};
+  };
+#regexp {%1} {%i$party[3]}
+  {
+#math {member3kills} {$member3kills + 1};
+  };
+#regexp {%1} {%i$party[4]}
+  {
+#math {member4kills} {$member4kills + 1};
+  };
+#regexp {%1} {%i$party[5]}
+  {
+#math {member5kills} {$member5kills + 1};
+  };
+
+  killtimer %2;	
 };
 
 #alias {scry}
 {
-	ded;
-	cast ffm on %1;
+  ded;
+  cast ffm on %1;
 };
 
 #act {^You prepare to cast Floron's Fabulous Mirror on %1}
 {
-	killtimer_reset %1;
+  killtimer_reset %1;
 };
 
 #act {^The crystal ring begins to glow as it searches for %1}
 {
-	killtimer_reset %1;
+  killtimer_reset %1;
 };
 
 #act {^Cannot find "%1", no match.}
 {
-	killtimer_scry %1;
+  killtimer_scry %1;
 };
 
 
 #alias {killtimer}
 {
-	#regexp {%1 %2 %3} {%iboss}
-	{
-		#var {bossded} {-20};
-		#ticker {bossdeath} {#math {bossded} {$bossded + 1}} {60};
-	};
-	
-	#regexp {%1 %2 %3} {%iHlakket}
-	{
-		#var {hlakketded} {-20};
-		#ticker {hlakketdeath} {#math {hlakketded} {$hlakketded + 1}} {60};
-	};
+#regexp {%1 %2 %3} {%iboss}
+  {
+#var {bossded} {-20};
+#ticker {bossdeath} {#math {bossded} {$bossded + 1}} {60};
+  };
 
-	#regexp {%1 %2 %3 %4} {%ifemale captive}
-	{
-		#var {captiveded} {0};
-		#ticker {captivedeath} {#math {captiveded} {$captiveded + 1}} {60};
-	};
-	
-	#regexp {%1 %2 %3} {%iceremonial}
-	{
-		#var {ceremonialded} {-20};
-		#ticker {ceremonialdeath} {#math {ceremonialded} {$ceremonialded + 1}} {60};
-	};
-        
-        #regexp {%1 %2 %3} {%idopey looking}
-	{
-		#var {shakerded} {-28};
-		#ticker {shakerdeath} {#math {shakerded} {$shakerded + 1}} {60};
-	};
-	
-		
-	#regexp {%1 %2 %3} {%iDelbert}
-	{
-		#var {Delbertded} {0};
-		#ticker {Delbertdeath} {#math {delbertded} {$delbertded + 1}} {60};
-	};
+#regexp {%1 %2 %3} {%iHlakket}
+  {
+#var {hlakketded} {-20};
+#ticker {hlakketdeath} {#math {hlakketded} {$hlakketded + 1}} {60};
+  };
 
-	#regexp {%1 %2 %3} {%igrflx workleader}
-	{
-		#var {grflxded} {0};
-		#ticker {grflxdeath} {#math {grflxded} {$grflxded + 1}}{60};
-	};
+#regexp {%1 %2 %3 %4} {%ifemale captive}
+  {
+#var {captiveded} {0};
+#ticker {captivedeath} {#math {captiveded} {$captiveded + 1}} {60};
+  };
+
+#regexp {%1 %2 %3} {%iceremonial}
+  {
+#var {ceremonialded} {-20};
+#ticker {ceremonialdeath} {#math {ceremonialded} {$ceremonialded + 1}} {60};
+  };
+
+#regexp {%1 %2 %3} {%idopey looking}
+  {
+#var {shakerded} {-28};
+#ticker {shakerdeath} {#math {shakerded} {$shakerded + 1}} {60};
+  };
+
+
+#regexp {%1 %2 %3} {%iDelbert}
+  {
+#var {Delbertded} {0};
+#ticker {Delbertdeath} {#math {delbertded} {$delbertded + 1}} {60};
+  };
+
+#regexp {%1 %2 %3} {%igrflx workleader}
+  {
+#var {grflxded} {0};
+#ticker {grflxdeath} {#math {grflxded} {$grflxded + 1}}{60};
+  };
 
 };
 
 
 #alias {killtimer_reset}
 {
-	#regexp {%1 %2 %3 %4} {%iboss}
-	{
-		#var {bossded} {-1};
-		#unticker {bossdeath} {#math {bossded} {$bossded + 1}} {60};
-	};
-	
-	#regexp {%1 %2 %3} {%iHlakket}
-	{
-		#var {hlakketded} {-1};
-		#unticker {hlakketdeath} {#math {hlakketded} {$hlakketded + 1}} {60};
-	};
+#regexp {%1 %2 %3 %4} {%iboss}
+  {
+#var {bossded} {-1};
+#unticker {bossdeath} {#math {bossded} {$bossded + 1}} {60};
+  };
 
-	#regexp {%1 %2 %3 %4} {%i female captive}
-	{
-		#var {captiveded} {-1};
-		#unticker {captivedeath} {#math {captiveded} {$captiveded + 1}} {60};
-	};
-	
-	#regexp {%1 %2 %3 %4} {ceremonial}
-	{
-		#var {ceremonialded} {-1};
-		#unticker {ceremonialdeath} {#math {ceremonialded} {$ceremonialded + 1}} {60};
-	};
-	
-	#regexp {%1 %2 %3 %4} {%idopey looking}
-	{
-		#var {shakerded} {-1};
-		#unticker {shakerdeath} {#math {shakerded} {$shakerded + 1}} {60};
-	};
-	
-	#regexp {%1 %2 %3} {%iDelbert}
-	{
-		#var {Delbertded} {-1};
-		#unticker {Delbertdeath} {#math {delbertded} {$delbertded + 1}} {60};
-	};
-	
-	#regexp {%1 %2 %3} {%igrflx workleader}
-	{
-		#var {grflxded} {-1};
-		#unticker {grflxdeath} {#math {grflxded} {$grflxded + 1}}{60};
-	};
+#regexp {%1 %2 %3} {%iHlakket}
+  {
+#var {hlakketded} {-1};
+#unticker {hlakketdeath} {#math {hlakketded} {$hlakketded + 1}} {60};
+  };
 
-	
+#regexp {%1 %2 %3 %4} {%i female captive}
+  {
+#var {captiveded} {-1};
+#unticker {captivedeath} {#math {captiveded} {$captiveded + 1}} {60};
+  };
+
+#regexp {%1 %2 %3 %4} {ceremonial}
+  {
+#var {ceremonialded} {-1};
+#unticker {ceremonialdeath} {#math {ceremonialded} {$ceremonialded + 1}} {60};
+  };
+
+#regexp {%1 %2 %3 %4} {%idopey looking}
+  {
+#var {shakerded} {-1};
+#unticker {shakerdeath} {#math {shakerded} {$shakerded + 1}} {60};
+  };
+
+#regexp {%1 %2 %3} {%iDelbert}
+  {
+#var {Delbertded} {-1};
+#unticker {Delbertdeath} {#math {delbertded} {$delbertded + 1}} {60};
+  };
+
+#regexp {%1 %2 %3} {%igrflx workleader}
+  {
+#var {grflxded} {-1};
+#unticker {grflxdeath} {#math {grflxded} {$grflxded + 1}}{60};
+  };
+
+
 };
 
 
 
 #alias {killtimer_scry}
 {
-	#regexp {%1 %2 %3} {%iboss}
-	{
-		#if {$bossded == -1}
-		{
-			#var {bossded} {0};
-			#ticker {bossdeath} {#math {bossded} {$bossded + 1}} {60};
-		};
-	};
-	
-	#regexp {%1 %2 %3} {%iHlakket}
-	{
-		#if {$hlakketded == -1}
-		{
-			#var {hlakketded} {0};
-			#ticker {hlakketdeath} {#math {hlakketded} {$hlakketded + 1}} {60};
-		};
-	};
+#regexp {%1 %2 %3} {%iboss}
+  {
+#if {$bossded == -1}
+    {
+#var {bossded} {0};
+#ticker {bossdeath} {#math {bossded} {$bossded + 1}} {60};
+    };
+  };
 
-	#regexp {%1 %2 %3 %4} {%icaptive}
-	{
-		#if {$captiveded == -1}
-		{
-			#var {captiveded} {0};
-			#ticker {captivedeath} {#math {captiveded} {$captiveded + 1}} {60};
-		};
-	};
+#regexp {%1 %2 %3} {%iHlakket}
+  {
+#if {$hlakketded == -1}
+    {
+#var {hlakketded} {0};
+#ticker {hlakketdeath} {#math {hlakketded} {$hlakketded + 1}} {60};
+    };
+  };
 
-	#regexp {%1 %2 %3} {%iDelbert}
-	{
-		#if {$delbertded == -1}
-		{
-			#var {delbertded} {0};
-			#ticker {delbertdeath} {#math {delbertded} {$delbertded + 1}} {60};
-		};
-	};
+#regexp {%1 %2 %3 %4} {%icaptive}
+  {
+#if {$captiveded == -1}
+    {
+#var {captiveded} {0};
+#ticker {captivedeath} {#math {captiveded} {$captiveded + 1}} {60};
+    };
+  };
 
-	
+#regexp {%1 %2 %3} {%iDelbert}
+  {
+#if {$delbertded == -1}
+    {
+#var {delbertded} {0};
+#ticker {delbertdeath} {#math {delbertded} {$delbertded + 1}} {60};
+    };
+  };
+
+
 };
-	
+
 
 #alias {gded}
 {
-	gs Hlakket: $hlakketded Boss: $bossded Captive: $captiveded Delbert: $delbertded cGuards: $ceremonialded Shaker: $shakerded Workleader: $grflxded;
+  gs Hlakket: $hlakketded Boss: $bossded Captive: $captiveded Delbert: $delbertded cGuards: $ceremonialded Shaker: $shakerded Workleader: $grflxded;
 };
 
 #alias {ded}
 {
-	#showme Hlakket: $hlakketded Boss: $bossded Captive: $captiveded Delbert: $delbertded cGuards: $ceremonialded Shaker: $shakerded Workleader: $grflxded;
+#showme Hlakket: $hlakketded Boss: $bossded Captive: $captiveded Delbert: $delbertded cGuards: $ceremonialded Shaker: $shakerded Workleader: $grflxded;
 };
 
 
 #act {^You killed the %1}
 {
-	#math {yourkills} {$yourkills + 1};
+#math {yourkills} {$yourkills + 1};
 
-	killtimer %1;
+  killtimer %1;
 };
 
 #alias {kills}
 {
-	#switch {$partysize}
-	{
-		#case {1} 
-		{	
-			#showme {<070>Kills: <150>You: <050>$yourkills <150>$party[1]: <050>$member1kills};
-		};
-		#case {2}
-		{	
-			#showme {<070>Kills: <150>You:<050> $yourkills <150>$party[1]: <050>$member1kills  <150>$party[2]: <050>$member2kills};
-		};
+#switch {$partysize}
+  {
+#case {1} 
+    {	
+#showme {<070>Kills: <150>You: <050>$yourkills <150>$party[1]: <050>$member1kills};
+    };
+#case {2}
+    {	
+#showme {<070>Kills: <150>You:<050> $yourkills <150>$party[1]: <050>$member1kills  <150>$party[2]: <050>$member2kills};
+    };
 
-		#case {3}
-		{	
-			#showme {<070>Kills: <150>You: <050>$yourkills <150>$party[1]:<050> $member1kills  <150>$party[2]: <050>$member2kills  <150>$party[3]: <050>$member3kills };
-		};
+#case {3}
+    {	
+#showme {<070>Kills: <150>You: <050>$yourkills <150>$party[1]:<050> $member1kills  <150>$party[2]: <050>$member2kills  <150>$party[3]: <050>$member3kills };
+    };
 
-		#case {4}
-		{	
-			#showme {<070>Kills: <150>You: <050>$yourkills <150>$party[1]: <050>$member1kills  <150>$party[2]: <050>$member2kills  <150>$party[3]: <050>$member3kills  <150>$party[4]: <050>$member4kills};
-		};
+#case {4}
+    {	
+#showme {<070>Kills: <150>You: <050>$yourkills <150>$party[1]: <050>$member1kills  <150>$party[2]: <050>$member2kills  <150>$party[3]: <050>$member3kills  <150>$party[4]: <050>$member4kills};
+    };
 
-		#case {5}
-		{	
-			#showme {<070>Kills: <150>You: <050>$yourkills <150>$party[1]: <050>$member1kills <150> $party[2]: <050>$member2kills  <150>$party[3]: <050>$member3kills  <150>$party[4]: <050>$member4kills  <150>$party[5]: <050>$member5kills};
-		};
+#case {5}
+    {	
+#showme {<070>Kills: <150>You: <050>$yourkills <150>$party[1]: <050>$member1kills <150> $party[2]: <050>$member2kills  <150>$party[3]: <050>$member3kills  <150>$party[4]: <050>$member4kills  <150>$party[5]: <050>$member5kills};
+    };
 
-		#case {0}
-		{	
-			#showme {<070>Kills: <150>You: <050>$yourkills};
-		};
-	};
+#case {0}
+    {	
+#showme {<070>Kills: <150>You: <050>$yourkills};
+    };
+  };
 };
 
 
 #alias {gkills}
 {
-	#switch {$partysize}
-	{
-		#case {1} 
-		{	
-			gs Kills: $playername: $yourkills  $party[1]: $member1kills;
-		};
-		#case {2}
-		{	
-			gs Kills: $playername: $yourkills  $party[1]: $member1kills  $party[2]: $member2kills;
-		};
+#switch {$partysize}
+  {
+#case {1} 
+    {	
+      gs Kills: $playername: $yourkills  $party[1]: $member1kills;
+    };
+#case {2}
+    {	
+      gs Kills: $playername: $yourkills  $party[1]: $member1kills  $party[2]: $member2kills;
+    };
 
-		#case {3}
-		{	
-			gs Kills: $playername: $yourkills  $party[1]: $member1kills  $party[2]: $member2kills  $party[3]: $member3kills;
-		};
+#case {3}
+    {	
+      gs Kills: $playername: $yourkills  $party[1]: $member1kills  $party[2]: $member2kills  $party[3]: $member3kills;
+    };
 
-		#case {4}
-		{	
-			gs Kills: $playername: $yourkills  $party[1]: $member1kills   $party[2]: $member2kills  $party[3]: $member3kills  $party[4]: $member4kills;
-		};
+#case {4}
+    {	
+      gs Kills: $playername: $yourkills  $party[1]: $member1kills   $party[2]: $member2kills  $party[3]: $member3kills  $party[4]: $member4kills;
+    };
 
-		#case {5}
-		{	
-			gs Kills: $playername: $yourkills $party[1]: $member1kills  $party[2]: $member2kills  $party[3]: $member3kills  $party[4]: $member4kills  $party[5]: $member5kills;
-		};
+#case {5}
+    {	
+      gs Kills: $playername: $yourkills $party[1]: $member1kills  $party[2]: $member2kills  $party[3]: $member3kills  $party[4]: $member4kills  $party[5]: $member5kills;
+    };
 
-		#case {0}
-		{	
-			#showme {<070>Kills: <150>You: <050>$yourkills};
-		};
-	};
+#case {0}
+    {	
+#showme {<070>Kills: <150>You: <050>$yourkills};
+    };
+  };
 };
 
 #alias {killreset}
 {
-	#var member1kills 0;
-	#var member2kills 0;
-	#var member3kills 0;
-	#var member4kills 0;
-	#var member5kills 0;
-	#var yourkills 0;
-	kills;
+#var member1kills 0;
+#var member2kills 0;
+#var member3kills 0;
+#var member4kills 0;
+#var member5kills 0;
+#var yourkills 0;
+  kills;
 };
 
 
