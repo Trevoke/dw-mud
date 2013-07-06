@@ -36,7 +36,7 @@
 	}
 };
 
-#act {^%s%1 is %2 and %3.%s} { partyadd %1 };
+#act {^   %1 is %2 and %3.%s} { partyadd %1 };
 #function {show_group_bar} 
 	{
 		#split 6 2;
