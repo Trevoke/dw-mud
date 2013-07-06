@@ -116,18 +116,18 @@
 };
 
 #nop ---------------------------------------------------------------------------
-#nop PARTYADD - ADD MEMBER WITH addparty title firstname lastname
+#nop PARTYADD - ADD MEMBER WITH partyadd title firstname lastname
 #nop ---------------------------------------------------------------------------
 
 #alias {partyadd}
 {	
 	#nop ADD NEW MEMBER INSTANCE
 	#var {toadd} {%0};
-        #var already_in_party { false };
+        #var {already_in_party} {false};
         #foreach {$party[%*]} {party_member_name} {
-                #if {$party_member_name == $toadd} { #var {already_in_party} {true} }
+                #if {"$party_member_name" == "$toadd"} { #var {already_in_party} {true}}
         };
-        #if {$already_in_party == "false"}
+        #if {"$already_in_party" == "false"}
         {
 	#list {party} {add} {%0};
 	#list {party} {size} {partysize};
