@@ -178,6 +178,15 @@
 #high {^In blocking the attack the %0 floating around you is knocked out of orbit.} {bold white};
 #gag {^Your %0 is too late to block};
 
+#nop SPELL COMPONENTS
+#high {%w bucketful{s|} of %2 ash} {bold white}
+#high {%w handful{s|} of %2 ash} {bold white}
+#high {%w ball{s|} of congealed sap} {bold white}
+#high {%w handful{s|} of some white mineral powder} {bold white}
+#high {%w fish{es|} carves from varnish} {bold white}
+#high {%w beeswax candle{s|}} {bold white}
+#high {%w {cured|} carrot{s|}} {bold white}
+#high {%w {cured|} %* eye{s|}} {bold white}
 
 #nop COLOURING OF TPA IN THE TOP BAR
 #act {^As your shield absorbs the impact, it becomes visible as a dull red glow.} {#var {tpacol} {<019>}};
