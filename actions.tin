@@ -141,7 +141,9 @@
 #act {~%1 tells you%2} 		{showtowin <138>%1 tells you%2};
 #act {~%1 tells %2 and you: %3} {showtowin <138>%1 tells %2 and you: %3};
 #act {~%1 asks you: %2} 	{showtowin <138>%1 asks you: %2};
+#act {~%1 asks %2 and you: %3} {showtowin <138>%1 tells %2 and you: %3};
 #act {~%1 exclaims to you: %2} 	{showtowin <138>%1 exclaims to you: %2};
+#act {~%1 exclaims to %2 and you: %3} {showtowin <138>%1 tells %2 and you: %3};
 #act {^[%1] %2: %3} 		{showtowin <128>[%1] %2: %3};
 
 #nop ---------------------------------------------------------------------------
