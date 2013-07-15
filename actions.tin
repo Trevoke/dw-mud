@@ -181,8 +181,8 @@
 #gag {^Your %0 is too late to block};
 
 #nop SPELL COMPONENTS
-#high {%w bucketful{s|} of %2 ash} {bold white}
-#high {%w handful{s|} of %2 ash} {bold white}
+#high {%w bucketful{s|} of{ some | }%2 ash} {bold white}
+#high {%w handful{s|} of{ some | }%2 ash} {bold white}
 #high {%w ball{s|} of congealed sap} {bold white}
 #high {%w handful{s|} of some white mineral powder} {bold white}
 #high {%w fish{es|} carved from varnish} {bold white}
