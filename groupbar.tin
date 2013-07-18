@@ -43,9 +43,7 @@
 
 #act {^   %w is %w and %w.%s}  
   { 
-    #if 
-      { %1 != $playername }
-#nop then
+    #if { %1 != $playername }
       { partyadd %1 } 
   };
 
