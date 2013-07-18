@@ -43,8 +43,8 @@
 
 #act {^   %w is %w and %w.%s}  
   { 
-    #if { %1 != $playername }
-      { partyadd %1 } 
+    #nop How do you do "not equal" ?
+    #if { %1 == $playername } {} { partyadd %1 } 
   };
 
 
