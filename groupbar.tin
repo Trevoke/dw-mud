@@ -41,7 +41,15 @@
   }
 };
 
-#act {^   %w is %w and %w.%s} { partyadd %1 };
+#act {^   %w is %w and %w.%s}  
+  { 
+    #if 
+      { %1 != $playername }
+#nop then
+      { partyadd %1 } 
+  };
+
+
 #function {show_group_bar} 
 {
   #split 6 2;
