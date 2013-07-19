@@ -20,6 +20,30 @@
 	#var hpcol @colscale{%1 %2};
 	#var mncol @colscale{%3 %4};
 	#var xpvalue %5;
+	
+	#nop START Sleipnir's Useless Delta Function START;
+	
+	#var hpvalue %1;
+	#var {newhp} {$hpvalue};
+	#var gpvalue %3;
+	#var {newgp} {$gpvalue};
+
+	#math {gpdif} {$newgp - $oldgp};
+	#math {hpdif} {$newhp - $oldhp};
+	#math {xpdif} {$xpvalue - $oldxp};
+	
+	#format {dif}
+	{
+		%cHP: %s%c  %cGP: %s%c  %cXP: %s%c   %cHp: %s(%s) Gp: %s(%s) Xp: %s%c
+	}
+		{bold cyan} {$hpdif} {reset} {bold green} {$gpdif} {reset} {bold blue} {$xpdif} {reset} {magenta} {$hpvalue} {%2} {$gpvalue} {%4} {$xpvalue} {reset};
+	#echo $dif;
+	
+	#var {oldhp}{$hpvalue};
+	#var {oldgp}{$gpvalue};
+	#var {oldxp}{$xpvalue};
+	
+	#nop END Sleipnir's Useless Delta Function END;
 
 	#nop on first call, set the correct xp to start counting correctly in the triggers
 	#if {$xp_updated == 0}
@@ -69,6 +93,31 @@
 	#var hpcol @colscale{%0 %1};
 	#var mncol @colscale{%2 %3};
 	#var xpvalue %4;
+	
+	#nop START Sleipnir's Useless Delta Function START;
+	
+	#var hpvalue %0;
+	#var {newhp} {$hpvalue};
+	#var gpvalue %2;
+	#var {newgp} {$gpvalue};
+
+	#math {gpdif} {$newgp - $oldgp};
+	#math {hpdif} {$newhp - $oldhp};
+	#math {xpdif} {$xpvalue - $oldxp};
+	
+	#format {dif}
+	{
+		%cHP: %s%c  %cGP: %s%c  %cXP: %s%c   %cHp: %s(%s) Gp: %s(%s) Xp: %s%c
+	}
+		{bold cyan} {$hpdif} {reset} {bold green} {$gpdif} {reset} {bold blue} {$xpdif} {reset} {magenta} {$hpvalue} {%1} {$gpvalue} {%3} {$xpvalue} {reset};
+	#echo $dif;
+	
+	#var {oldhp}{$hpvalue};
+	#var {oldgp}{$gpvalue};
+	#var {oldxp}{$xpvalue};
+
+	#nop END Sleipnir's Useless Delta Function END;
+	
 	#if {$xp_updated == 0}
 	{#var {newxp} {$xpvalue};
 	#var {newexp}{$xpvalue};
@@ -181,8 +230,8 @@
 #gag {^Your %0 is too late to block};
 
 #nop SPELL COMPONENTS
-#high {%w bucketful{s|} of{ some | }%2 ash} {bold white}
-#high {%w handful{s|} of{ some | }%2 ash} {bold white}
+#high {%w bucketful{s|} of %2 ash} {bold white}
+#high {%w handful{s|} of %2 ash} {bold white}
 #high {%w ball{s|} of congealed sap} {bold white}
 #high {%w handful{s|} of some white mineral powder} {bold white}
 #high {%w fish{es|} carved from varnish} {bold white}
