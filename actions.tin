@@ -137,7 +137,7 @@
 {
 		#format {money} 
 		{
-			%cMoney:%c You are flat broke.
+			%cMoney:%c None
 		}
 			{dim yellow} {reset}
 };
