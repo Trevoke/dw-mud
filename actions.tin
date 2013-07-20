@@ -160,7 +160,7 @@
 #high {^Queued command: %0} {bold black};
 
 #high {priest} {magenta};
-#high {watchman} {cyan};
+#high {watchm{a|e}n} {cyan};
 
 #gag {^$};
 
