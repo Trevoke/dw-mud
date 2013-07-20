@@ -156,7 +156,7 @@
 #nop USEFUL DEFAULT STUFF
 #nop ---------------------------------------------------------------------------
 
-#high {^You} {faint};
+#high {^You{|r} } {faint};
 #high {^Queued command: %0} {bold black};
 
 #high {priest} {magenta};
