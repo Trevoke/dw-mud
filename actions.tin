@@ -11,8 +11,8 @@
 
 #prompt {^Hp: %0 (%1) Gp: %2 (%3) Xp: %4} {$prompt_final};
 #prompt {^Hp: %0(%1)  Gp: %2(%3)  Xp: %4  Burden: %5} {$prompt_final};
-#gag {Queued command: score brief};
-#gag {Queued command: money brief};
+#gag {^Queued command: score brief};
+#gag {^Queued command: money brief};
 
 #nop MONITOR LINE IN score brief INGAME OUTPUT
 #act {^Hp: %1(%2)  Gp: %3(%4)  Xp: %5  Burden: %6}
