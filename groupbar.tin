@@ -58,51 +58,19 @@
 
   #ticker {paint group bar}
   {	
-    #if {$partysize > 0}
-    {
-      #format {member1} {%s%s:%c %s}
-      {$partyCOL[1]} {$party[1]} {reset} {$partyTPA[1]}
-    }
-    {
-      #var {member1} { Empty group! };
-    };
-
-  #if {$partysize > 1}
-    {
-      #format {member2} { %s %s%s:%c %s}
-      {$separator} {$partyCOL[2]} {$party[2]} {reset} {$partyTPA[2]};
-    }
-    {
-      #var {member2} {};
-    };
-
-    #if {$partysize > 2}
-    {
-      #format {member3} { %s %s%s:%c %s}
-      {$separator} {$partyCOL[3]} {$party[3]} {reset} {$partyTPA[3]};
-    }{
-      #var {member3} {};
-    };
-
-#if {$partysize > 3}
-    {
-      #format {member4} { %s %s%s:%c %s}
-      {$separator} {$partyCOL[4]} {$party[4]} {reset} {$partyTPA[4]};
-    }{
-      #var {member4} {};
-    };
-
-#if {$partysize > 4}
-    {
-      #format {member5} { %s %s%s:%c %s}
-      {$separator} {$partyCOL[5]} {$party[5]} {reset} {$partyTPA[5]};
-    }{
-      #var {member5} {};
-    };
-
-    #echo {{%s %s%s%s%s%s %s} { 2 } } 
-    {$topleft} {$member1} {$member2} {$member3} {$member4} {$member5} {$topright};
-  }{1};
+   #var {member[1]} { Empty group! };
+   #var {member[2]} {};
+   #var {member[3]} {};
+   #var {member[4]} {};
+   #var {member[5]} {};
+   #foreach {$party[%*]} {party_member_name}
+   {
+   #list {party} {find} {$party_member_name} {index};
+   #format {member[$index]} {%s %s:%c %s %s}  {$partyCOL[$index]} {$party[$index]} {reset} {$partyTPA[$index]} {$separator};
+   }
+   #echo {{%s %s%s%s%s%s %s} { 2 } } {$topleft} {$member[1]} {$member[2]} {$member[3]} {$member[4]} {$member[5]} {$topright};
+  }
+  {1};
 };
 
 #function {hide_group_bar}
