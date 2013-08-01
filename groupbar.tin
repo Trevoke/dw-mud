@@ -14,23 +14,8 @@
 #var delbertded -1;
 #var grflxded -1;
 
-
-#act {You have joined the group.$}
-{
-  groupbar on;
-};
-
-#act { You have left the group.$}
-{
-  groupbar off;
-};
-
 #var catchname 0;
 
-#act {^[%*] %1 has joined the group.$}
-{
-  partyadd %1;
-}
 
 #act {^You prepare to cast Transcendent Pneumatic Alleviator on %1.}
 {
@@ -41,7 +26,12 @@
   }
 };
 
-#act {  %w is %w and %3.  }  
+#act {You have joined the group.$} { groupbar on };
+#act { You have left the group.$} { groupbar off };
+
+#act {^[%*] %1 has joined the group.$} { partyadd %1; }
+
+#act {  %w is %2 and %3.  }  
   { 
     #if { "%1" == "$playername" } {#nop} { partyadd %1 } 
   };
