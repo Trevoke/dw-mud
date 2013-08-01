@@ -103,7 +103,7 @@
 {	
   #format {to_add} {%p} {%1};
 
-  #if {@in_party{$to_add} == "false"}
+  #if {"@in_party{$to_add}" == "false"}
   {
     #list {party} {add} {$to_add};
     #list {party} {size} {partysize};
