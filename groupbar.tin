@@ -85,22 +85,27 @@
 
 };
 
+#function {in_party}
+{
+  #var {already_in_party} {false};
+  #foreach {$party[%*]} {party_member_name}
+  {
+    #if {"$party_member_name" == "%1"} { #var {already_in_party} {true}}
+  }
+  #return $already_in_party
+}
+
 #nop ---------------------------------------------------------------------------
-#nop PARTYADD - ADD MEMBER WITH partyadd title firstname lastname
+#nop PARTYADD - ADD MEMBER WITH partyadd <firstname> 
 #nop ---------------------------------------------------------------------------
 
 #alias {partyadd}
 {	
-  #nop ADD NEW MEMBER INSTANCE
-  #var {toadd} {%0};
-  #var {already_in_party} {false};
-  #foreach {$party[%*]} {party_member_name}
+  #format {to_add} {%p} {%1};
+
+  #if {@in_party{$to_add} == "false"}
   {
-    #if {"$party_member_name" == "$toadd"} { #var {already_in_party} {true}}
-  };
-  #if {"$already_in_party" == "false"}
-  {
-    #list {party} {add} {%0};
+    #list {party} {add} {$to_add};
     #list {party} {size} {partysize};
     #list {partyCOL} {add} {<070>};
     #list {partyTPA} {add} {down!};
