@@ -27,12 +27,14 @@
 };
 
 #act {You have joined the group.$} { groupbar on }
+
+#act {^[%*] %1 has joined the group.$} { partyadd %1; }
+#act {^  %w is %2 and %3.  }  { #if { "%1" != "$playername" } { partyadd %1 } }
+
+#act {^[%*] %1 has left the group.$} { partyremove %1; }
+
 #act { You have left the group.$} { groupbar off }
 
-#act {^[%*] %1 has left the group.$} { partyadd %1; }
-#act {  %w is %2 and %3.  }  { #if { "%1" != "$playername" } { partyadd %1 } }
-
-#act {^[%*] %1 has joined the group.$} { partyremove %1; }
 
 #function {show_group_bar} 
 {
