@@ -179,6 +179,11 @@
 	mp3 toasty.mp3;
 };
 
+#action {^You have a good look at the ground and scavenge %1 from}
+{
+  tts %1;
+}
+
 
 #nop ---------------------------------------------------------------------------
 #nop CATCHING THE CHAT
