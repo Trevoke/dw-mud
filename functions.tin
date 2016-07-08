@@ -1,4 +1,4 @@
-#nop functions.tin  
+#nop functions.tin
 
 #MESSAGE {var} {off}
 
@@ -10,7 +10,7 @@
 #var tpacol <020>;
 #var ccccounter -1;
 #var skeletime -1;
-#var xp_updated 0; 
+#var xp_updated 0;
 #format {tpastatus} {%cTPA down!} {bold red};
 
 #format {xpin60} {%cXp per Hour:     n/a} {light blue};
@@ -25,10 +25,10 @@
 #nop ---------------------------------------------------------------------------
 #alias {tts}
 {
-	#regex {$tts} {festival}
-	{
-		#system {echo "%0"  | festival --tts &};
-	};
+        #regex {$tts} {festival}
+        {
+                #system {echo "%0"  | festival --tts &};
+        };
         #regex {$tts} {osx}
         {
                 #system {say "%0" &};
@@ -39,10 +39,10 @@
 #nop ---------------------------------------------------------------------------
 #alias {mp3}
 {
-	#regexp {$mp3} {mpg321}
-	{
-		#system {mpg321 -q sounds/%0 &};
-	};
+        #regexp {$mp3} {mpg321}
+        {
+                #system {mpg321 -q sounds/%0 &};
+        };
 };
 
 
@@ -51,23 +51,23 @@
 #nop ---------------------------------------------------------------------------
 
 #act {^tintin-settings: %1:%2 %3 ccc:%4 !} {
-	#var tpa_on %1;
-	#var min_counter %2;
-	#var hits %3;
-	#var ccccounter %4;
-	
-	#if {$tpa_on == 1} {
-		#var sec_counter 0;
-		#ticker {tpa_time}
-		{
-			#math {sec_counter} {$sec_counter + 1};
-			#if {$sec_counter == 60}
-			{
-				#math {min_counter} {$min_counter + 1};
-				#math {sec_counter} {0};
-			}
-		}{1}
-	}
+        #var tpa_on %1;
+        #var min_counter %2;
+        #var hits %3;
+        #var ccccounter %4;
+
+        #if {$tpa_on == 1} {
+                #var sec_counter 0;
+                #ticker {tpa_time}
+                {
+                        #math {sec_counter} {$sec_counter + 1};
+                        #if {$sec_counter == 60}
+                        {
+                                #math {min_counter} {$min_counter + 1};
+                                #math {sec_counter} {0};
+                        }
+                }{1}
+        }
 };
 #gag {^tintin-settings:};
 #gag {^Changed alias "tintin-settings" from}
@@ -76,25 +76,25 @@
 #nop ---------------------------------------------------------------------------
 #nop XP TICKERS
 #nop ---------------------------------------------------------------------------
-#ticker {xp10minutes} 
-{	
-	#math {oldxp} {$newxp};
-	#math {newxp} {$xpvalue};
-	#math {madexp} {$newxp - $oldxp};
-	#showme {<158> === You made $madexp Xp in the last ten minutes. === <099>};
-	showtowin <158>  === You made $madexp Xp in the last ten minutes. === <099>;
+#ticker {xp10minutes}
+{
+        #math {oldxp} {$newxp};
+        #math {newxp} {$xpvalue};
+        #math {madexp} {$newxp - $oldxp};
+        #showme {<158> === You made $madexp Xp in the last ten minutes. === <099>};
+        showtowin <158>  === You made $madexp Xp in the last ten minutes. === <099>;
 }{600};
 
 #ticker {xp3minutes}
 {
-	#math {oldexp} {$newexp};
-	#math {newexp} {$xpvalue};
-	#math {madeexp} {($newexp - $oldexp) * 3};
-	#math {hourxp} {$madexp * 6};
-	#format {xpin10} {%cXp in 10 minutes:%+7s}
-		{light blue} {$madeexp};
-	#format {xpin60} {%cXp per Hour:%+8s}
-		{light blue} {$hourxp};
+        #math {oldexp} {$newexp};
+        #math {newexp} {$xpvalue};
+        #math {madeexp} {($newexp - $oldexp) * 3};
+        #math {hourxp} {$madexp * 6};
+        #format {xpin10} {%cXp in 10 minutes:%+7s}
+                {light blue} {$madeexp};
+        #format {xpin60} {%cXp per Hour:%+8s}
+                {light blue} {$hourxp};
 }{200};
 
 
@@ -110,66 +110,66 @@
 #nop formatting of the top separators
 #nop ---------------------------------------------------------------------------
 #format {topleft} {%c<%c---%c(}
-	{dim yellow} {reset} {dim yellow}; 
-	
+        {dim yellow} {reset} {dim yellow};
+
 #format {separator} {%c)%c--%c(}
-	{dim yellow} {reset} {dim yellow};
+        {dim yellow} {reset} {dim yellow};
 
 #format {topright} {%c)%c---%c>%c}
-	{dim yellow} {reset} {dim yellow} {reset};
+        {dim yellow} {reset} {dim yellow} {reset};
 #nop ---------------------------------------------------------------------------
 
 #nop alias used for inserting text into the chat space
 #nop ---------------------------------------------------------------------------
 #alias {showtowin}
 {
-	#format temp {%w} {%0};
+        #format temp {%w} {%0};
 
-	#loop {1} {&temp[]} {cnt}
-	{
-		#list window insert -1 {$temp[$cnt]}
-	};
+        #loop {1} {&temp[]} {cnt}
+        {
+                #list window insert -1 {$temp[$cnt]}
+        };
 
-	#loop {6} {&window[]} {cnt}
-	{
-		#list window del 1
-	};
+        #loop {6} {&window[]} {cnt}
+        {
+                #list window del 1
+        };
 
-	#loop {1} {5} {cnt}
-	{
-		#echo {{$window[$cnt]} {-$cnt}}
-	};
+        #loop {1} {5} {cnt}
+        {
+                #echo {{$window[$cnt]} {-$cnt}}
+        };
 }
 
 #ticker {paint top bar}
 {
-	#if {$tpa_on == 1}	
-	{
-		#format {tpastatus} {%sTPA:%c %s min/%s Hits}
-			{$tpacol} {reset} {$min_counter} {$hits};
-	}{
-		#format {tpastatus} {%cTPA down!}
-			{bold red};
-	};
-	
-	#if {$ccccounter == -1}
-	{
-		#var {cccstatus} {};
-	}{	
-		#format {cccstatus} {%s %cCCC: %s Hits %s}
-			{$separator} {white} {$ccccounter};
-	};		 
-				 
-	#if {$skeletime == -1}
-	{
-		#echo {{%s %s %s %s %s %s %s %s%s} { 6 * -1 } } 
-		{$topleft} {$xpin10} {$separator} {$xpin60} {$separator} {$tpastatus} {$cccstatus} {$topright};
-	}{
-		#format {skelestatus} {%sSkel:%c %s min}
-			{$skelcol} {reset} {$skeletime};
-		#echo {{%s %s %s %s %s %s %s %s %s %s%s} { 6 * -1 } } 
-		{$topleft} {$xpin10} {$separator} {$xpin60} {$separator} {$tpastatus} {$cccstatus} {$separator} {$skelestatus} {$topright};
-	};
+        #if {$tpa_on == 1}
+        {
+                #format {tpastatus} {%sTPA:%c %s min/%s Hits}
+                        {$tpacol} {reset} {$min_counter} {$hits};
+        }{
+                #format {tpastatus} {%cTPA down!}
+                        {bold red};
+        };
+
+        #if {$ccccounter == -1}
+        {
+                #var {cccstatus} {};
+        }{
+                #format {cccstatus} {%s %cCCC: %s Hits %s}
+                        {$separator} {white} {$ccccounter};
+        };
+
+        #if {$skeletime == -1}
+        {
+                #echo {{%s %s %s %s %s %s %s %s%s} { 6 * -1 } }
+                {$topleft} {$xpin10} {$separator} {$xpin60} {$separator} {$tpastatus} {$cccstatus} {$topright};
+        }{
+                #format {skelestatus} {%sSkel:%c %s min}
+                        {$skelcol} {reset} {$skeletime};
+                #echo {{%s %s %s %s %s %s %s %s %s %s%s} { 6 * -1 } }
+                {$topleft} {$xpin10} {$separator} {$xpin60} {$separator} {$tpastatus} {$cccstatus} {$separator} {$skelestatus} {$topright};
+        };
 }{1};
 
 
@@ -185,20 +185,20 @@
 #nop ---------------------------------------------------------------------------
 #function {colscale}
 {
-	#math {bruch} {(100 * %1 / %2)};			
-	#if { $bruch < 33 }
-	{
-		#format {result} {%c} {light red};
-	}
-	{
-		#if { $bruch > 66 }
-		{
-			#format {result} {%c} {light green};
-		}
-		{
-			#format {result} {%c} {light yellow};
-		}
-	};
+        #math {bruch} {(100 * %1 / %2)};
+        #if { $bruch < 33 }
+        {
+                #format {result} {%c} {light red};
+        }
+        {
+                #if { $bruch > 66 }
+                {
+                        #format {result} {%c} {light green};
+                }
+                {
+                        #format {result} {%c} {light yellow};
+                }
+        };
 };
 
 
@@ -208,32 +208,32 @@
 
 #alias {log}
 {
-	#if {"%0" == "on"}
-	{
-		#if {"$logging" != "on"}
-		{
-			#script {date} {date "+%Y-%m-%d"};
-			#format {logfile} {logs/%s.log.html} {$date[1]};
-			#log append $logfile;
-			#var logging on
-		}
-		{
-			#showme You are already logging.
-		};
-	};
-	#if {"%0" == "off"}
-	{
-		#if {"$logging" == "on"}
-		{
-			#log;
-			#var logging off
-		}
-		{
-			#showme You are not logging.
-		};
-	};
-	#if {"%0" != "off" && "%0" != "on"}
-	{
-		#showme Turn log on or off?
-	};
+        #if {"%0" == "on"}
+        {
+                #if {"$logging" != "on"}
+                {
+                        #script {date} {date "+%Y-%m-%d"};
+                        #format {logfile} {logs/%s.log.html} {$date[1]};
+                        #log append $logfile;
+                        #var logging on
+                }
+                {
+                        #showme You are already logging.
+                };
+        };
+        #if {"%0" == "off"}
+        {
+                #if {"$logging" == "on"}
+                {
+                        #log;
+                        #var logging off
+                }
+                {
+                        #showme You are not logging.
+                };
+        };
+        #if {"%0" != "off" && "%0" != "on"}
+        {
+                #showme Turn log on or off?
+        };
 };

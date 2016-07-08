@@ -1,6 +1,6 @@
 #nop ---------------------------------------------------------------------------
 #nop GROUPBAR
-#nop 
+#nop
 #nop ADD PARTY MEMBERS WITH partyadd membername
 #nop CLEAR PARTY WITH newparty
 #nop ---------------------------------------------------------------------------
@@ -22,7 +22,7 @@
   #if {$catchname > 0}
   {
     partyadd %1;
-    #math {catchname} {$catchname -1};	
+    #math {catchname} {$catchname -1};
   }
 };
 
@@ -36,7 +36,7 @@
 #act { You have left the group.$} { groupbar off }
 
 
-#function {show_group_bar} 
+#function {show_group_bar}
 {
   #split 6 2;
   #nop #showme{$prompt_final}{1};
@@ -46,7 +46,7 @@
   };
 
   #ticker {paint group bar}
-  {	
+  {
    #var {member[1]} { Empty group! };
    #var {member[2]} {};
    #var {member[3]} {};
@@ -95,11 +95,11 @@
 }
 
 #nop ---------------------------------------------------------------------------
-#nop PARTYADD - ADD MEMBER WITH partyadd <firstname> 
+#nop PARTYADD - ADD MEMBER WITH partyadd <firstname>
 #nop ---------------------------------------------------------------------------
 
 #alias {partyadd}
-{	
+{
   #format {to_add} {%p} {%1};
 
   #if {"@in_party{$to_add}" == "false"}
@@ -155,12 +155,12 @@
   partycolour <039> %1;
 };
 
-#act {^The wobbling orange glow around %1 becomes bright red.} 
+#act {^The wobbling orange glow around %1 becomes bright red.}
 {
-  partycolour <071> %1; 
+  partycolour <071> %1;
 };
 
-#act {^The bright red glow around %1 becomes dull red.} 
+#act {^The bright red glow around %1 becomes dull red.}
 {
   partycolour <019> %1;
 };
@@ -256,7 +256,7 @@
 #math {member5kills} {$member5kills + 1};
   };
 
-  killtimer %2;	
+  killtimer %2;
 };
 
 #alias {scry}
@@ -442,32 +442,32 @@
 {
 #switch {$partysize}
   {
-#case {1} 
-    {	
+#case {1}
+    {
 #showme {<070>Kills: <150>You: <050>$yourkills <150>$party[1]: <050>$member1kills};
     };
 #case {2}
-    {	
+    {
 #showme {<070>Kills: <150>You:<050> $yourkills <150>$party[1]: <050>$member1kills  <150>$party[2]: <050>$member2kills};
     };
 
 #case {3}
-    {	
+    {
 #showme {<070>Kills: <150>You: <050>$yourkills <150>$party[1]:<050> $member1kills  <150>$party[2]: <050>$member2kills  <150>$party[3]: <050>$member3kills };
     };
 
 #case {4}
-    {	
+    {
 #showme {<070>Kills: <150>You: <050>$yourkills <150>$party[1]: <050>$member1kills  <150>$party[2]: <050>$member2kills  <150>$party[3]: <050>$member3kills  <150>$party[4]: <050>$member4kills};
     };
 
 #case {5}
-    {	
+    {
 #showme {<070>Kills: <150>You: <050>$yourkills <150>$party[1]: <050>$member1kills <150> $party[2]: <050>$member2kills  <150>$party[3]: <050>$member3kills  <150>$party[4]: <050>$member4kills  <150>$party[5]: <050>$member5kills};
     };
 
 #case {0}
-    {	
+    {
 #showme {<070>Kills: <150>You: <050>$yourkills};
     };
   };
@@ -478,32 +478,32 @@
 {
 #switch {$partysize}
   {
-#case {1} 
-    {	
+#case {1}
+    {
       gs Kills: $playername: $yourkills  $party[1]: $member1kills;
     };
 #case {2}
-    {	
+    {
       gs Kills: $playername: $yourkills  $party[1]: $member1kills  $party[2]: $member2kills;
     };
 
 #case {3}
-    {	
+    {
       gs Kills: $playername: $yourkills  $party[1]: $member1kills  $party[2]: $member2kills  $party[3]: $member3kills;
     };
 
 #case {4}
-    {	
+    {
       gs Kills: $playername: $yourkills  $party[1]: $member1kills   $party[2]: $member2kills  $party[3]: $member3kills  $party[4]: $member4kills;
     };
 
 #case {5}
-    {	
+    {
       gs Kills: $playername: $yourkills $party[1]: $member1kills  $party[2]: $member2kills  $party[3]: $member3kills  $party[4]: $member4kills  $party[5]: $member5kills;
     };
 
 #case {0}
-    {	
+    {
 #showme {<070>Kills: <150>You: <050>$yourkills};
     };
   };

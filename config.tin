@@ -16,7 +16,7 @@
 #CONFIG           {TINTIN CHAR}           {#}
 #CONFIG           {VERBATIM CHAR}         {\}
 #CONFIG           {REPEAT CHAR}           {!}
-#CONFIG		  {MCCP}                  {ON}
+#CONFIG           {MCCP}                  {ON}
 
 
 #nop ---------------------------------------------------------------------------
@@ -54,7 +54,7 @@
 #macro {\e\eOA} {#buffer up}
 #macro {\e\eOB} {#buffer down}
 
-#nop walking with alt + uiojm,.l 
+#nop walking with alt + uiojm,.l
 #nop ---------------------------------------------------------------------------
 #macro {\eOt} {w}
 #macro {\eOw} {nw}
@@ -84,7 +84,7 @@
 log on
 
 #nop ---------------------------------------------------------------------------
-#nop ALIAS NEEDED TO QUIT WITH SAVING THE VARIABLES 
+#nop ALIAS NEEDED TO QUIT WITH SAVING THE VARIABLES
 #nop NEEDS alias quitt quit TO WORK !!!
 #nop ---------------------------------------------------------------------------
 #alias quit {alias tintin-settings $tpa_on:$min_counter $hits ccc:$ccccounter !; quitt};
