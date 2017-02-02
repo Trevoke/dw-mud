@@ -3,8 +3,12 @@
 
 For the full experience you need festival-tts and mpg321 installed for text-to-speech support and mp3 file support.
 
+# SETUP
 
-# IN-MUD Setup
+## OUT-OF-MUD Setup
+Please have a read of config.tin and change it accordingly. Ping me if any of it doesn't make sense and I'll make it clearer.
+
+## IN-MUD Setup
 You need the following settings in your Discworld options.
 
 * verbose combat
@@ -15,8 +19,6 @@ You need the following settings in your Discworld options.
 * alias suu su
 * alias afterinventory alias tintin-settings; xp
 
-# What you need to do before this might work for you
-**Please have a read of config.tin and change it accordingly.**
 
 # WHAT THIS WILL DO FOR YOU
 
